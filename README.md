@@ -69,6 +69,7 @@ kubectl -n test get  pod nginx-xxx -ojsonpath='{.metadata.annotations}'
       # url: https://${SERVICE_ADDR}/mutate
       
 使用IP地址访问：
+
    clientConfig:
       #service:
       #  name: ${PACKAGE}-webhook-svc
