@@ -28,18 +28,21 @@
 
 3.1 构建镜像
 
-bash build/image-build.sh pod-annotate  v0.0.1
+`bash build/image-build.sh pod-annotate  v0.0.1`
 
 3.2 查看镜像、推送镜像
 
+```
 docker images
 
 docker tag pod-annotate:v0.0.1  xxx.com/xx/pod-annotate:v0.0.1
 
 docker push xxx.com/xx/pod-annotate:v0.0.1
+```
 
 3.2 部署webhook到集群命名空间demo
 
+```
 kubectl create ns demo
 
 #deploy-in-k8s.sh pod-annotate  version namespace registry.com/organization  IP-whitelist
@@ -47,8 +50,10 @@ kubectl create ns demo
 bash build/deploy-in-k8s.sh pod-annotate  v0.0.1 demo  xxx.com/xx
 
 #bash build/deploy-in-k8s.sh pod-annotate  v0.0.1  demo  xxx.com/xx  192.168.0.1
+```
 
 4 在命名空间test查看效果
+```
 
 kubectl create ns test 
 
@@ -57,23 +62,24 @@ kubectl label namespace test pod-annotate-webhook=enabled
 kubectl -n test create deployment nginx --image=nginx
 
 kubectl -n test get  pod nginx-xxx -ojsonpath='{.metadata.annotations}'
+```
 
 # mutatingwebhook.yaml.tpl 模版说明
 
 使用k8s域名：
-
+```
     clientConfig:
       service:
-        name: ${PACKAGE}-webhook-svc
-        namespace: ${NAMESPACED}
+        name: pod-annotate-webhook-svc
+        namespace: demo
         path: "/mutate"
-
+```
       
 使用IP地址访问：
-# nodeport/loadbalance service IP address, The certificate must contain the IP address.
-# ex. https://ip:port/mutate
-
+```
     clientConfig:
-      url: https://${SERVICE_ADDR}/mutate
-
+      # nodeport/loadbalance service IP address, The certificate must contain the IP address.
+      # ex. https://ip:port/mutate
+      url: https://192.168.0.1:443/mutate
+```
 
