@@ -1,4 +1,4 @@
-Admission Webhook Demo
+### Admission Webhook Demo
 
 该demo主要为MutatingAdmissionWebhook，实现给pod打注解。
 
@@ -49,8 +49,11 @@ bash build/deploy-in-k8s.sh pod-annotate  v0.0.1 demo  xxx.com/xx
 #bash build/deploy-in-k8s.sh pod-annotate  v0.0.1  demo  xxx.com/xx  192.168.0.1
 
 4 在命名空间test查看效果
+
 kubectl create ns test 
+
 kubectl label namespace test pod-annotate-webhook=enabled
+
 kubectl -n test create deployment nginx --image=nginx
 
 kubectl -n test get  pod nginx-xxx -ojsonpath='{.metadata.annotations}'
