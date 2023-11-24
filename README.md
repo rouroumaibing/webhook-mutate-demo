@@ -64,17 +64,13 @@ kubectl -n test get  pod nginx-xxx -ojsonpath='{.metadata.annotations}'
         name: ${PACKAGE}-webhook-svc
         namespace: ${NAMESPACED}
         path: "/mutate"
-      # nodeport/loadbalance service IP address, The certificate must contain the IP address.
-      # ex. https://ip:port/mutate
-      # url: https://${SERVICE_ADDR}/mutate
+
       
 使用IP地址访问：
 
-   clientConfig:
-      #service:
-      #  name: ${PACKAGE}-webhook-svc
-      #  namespace: ${NAMESPACED}
-      #  path: "/mutate"
+    clientConfig:
       # nodeport/loadbalance service IP address, The certificate must contain the IP address.
       # ex. https://ip:port/mutate
       url: https://${SERVICE_ADDR}/mutate
+
+
