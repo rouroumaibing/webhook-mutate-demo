@@ -12,12 +12,13 @@ webhooks:
     #If there is a problem with admission that does not affect the creation of a business pod, reject the request if the value is failed.
     failurePolicy: Ignore
     clientConfig:
-      #service:
-      #  name: ${PACKAGE}-webhook-svc
-      #  namespace: ${NAMESPACED}
-      #  path: "/mutate"
-      # nodeport/loadbalance service address. ex. https://ip:port/mutate
-      url: https://${SERVICE_ADDR}/mutate
+      service:
+        name: ${PACKAGE}-webhook-svc
+        namespace: ${NAMESPACED}
+        path: "/mutate"
+      # nodeport/loadbalance service IP address, The certificate must contain the IP address.
+      # ex. https://ip:port/mutate
+      # url: https://${SERVICE_ADDR}/mutate
       caBundle: ${CA_BUNDLE}
     rules:
       - apiGroups: [""]

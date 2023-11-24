@@ -18,6 +18,7 @@ The following flags are required.
        --service          Service name of webhook.
        --namespace        Namespace where webhook service and secret reside.
        --secret           Secret name for CA certificate and server certificate/key pair.
+       --ip               IP whitelist
 EOF
     exit 1
 }
@@ -36,6 +37,10 @@ while [[ $# -gt 0 ]]; do
             namespace="$2"
             shift
             ;;
+        --ip)
+            ip="$2"
+            shift
+            ;;
         *)
             usage
             ;;
@@ -46,6 +51,7 @@ done
 [ -z ${service} ] && echo "ERROR: --service flag is required" && exit 1
 [ -z ${secret} ] && echo "ERROR: --secret flag is required" && exit 1
 [ -z ${namespace} ] && namespace=default
+[ -z ${ip} ] && ip=192.168.0.1
 
 if [ ! -x "$(command -v openssl)" ]; then
     echo "openssl not found"
@@ -72,7 +78,7 @@ subjectAltName = @alt_names
 DNS.1 = ${service}
 DNS.2 = ${service}.${namespace}
 DNS.3 = ${service}.${namespace}.svc
-IP.1 = 192.168.0.1
+IP.1 = ${ip}
 EOF
 
 
